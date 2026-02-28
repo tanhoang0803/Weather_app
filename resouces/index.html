@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherNow — Real-Time Weather</title>
+    <link href="./css/index.css" rel="stylesheet">
+</head>
+<body class="bg-default">
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <p>Fetching weather data...</p>
+    </div>
+
+    <div class="app-wrapper">
+
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <span class="app-logo">&#9925;</span>
+                <h1 class="app-title">WeatherNow</h1>
+            </div>
+            <div class="header-right">
+                <button class="location-btn" title="Use my location">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                        <circle cx="12" cy="9" r="2.5"/>
+                    </svg>
+                    <span>My Location</span>
+                </button>
+                <button class="unit-toggle" title="Switch temperature unit">&#xB0;F</button>
+            </div>
+        </header>
+
+        <!-- Search -->
+        <section class="search-section">
+            <form class="search-form">
+                <div class="search-box">
+                    <input
+                        type="text"
+                        class="search-input"
+                        placeholder="Search for a city..."
+                        spellcheck="false"
+                        autocomplete="off"
+                    >
+                    <button type="submit" class="search-btn">
+                        <img src="./images/search.png" alt="Search">
+                    </button>
+                </div>
+            </form>
+
+            <!-- Recent Searches -->
+            <div class="recent-searches hidden">
+                <span class="recent-label">Recent:</span>
+                <div class="recent-tags"></div>
+            </div>
+        </section>
+
+        <!-- Error Message -->
+        <div class="error-message hidden"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Current Weather Card -->
+            <div class="weather-card hidden">
+
+                <div class="weather-top">
+                    <div class="weather-location">
+                        <h2 class="city-name">--</h2>
+                        <p class="date">--</p>
+                    </div>
+                    <div class="weather-main">
+                        <img class="weather-icon" src="./images/clouds.png" alt="Weather condition">
+                        <div class="weather-temp-block">
+                            <span class="temperature">--</span>
+                            <span class="description">--</span>
+                            <span class="feels-like">Feels like --</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detail Cards Grid -->
+                <div class="details-grid">
+
+                    <div class="detail-card">
+                        <img src="./images/humidity.png" alt="Humidity">
+                        <div class="detail-text">
+                            <span class="detail-value humidity-value">--%</span>
+                            <span class="detail-label">Humidity</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <img src="./images/wind.png" alt="Wind">
+                        <div class="detail-text">
+                            <span class="detail-value wind-value">-- km/h</span>
+                            <span class="detail-label">Wind Speed</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <svg class="detail-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        <div class="detail-text">
+                            <span class="detail-value visibility-value">-- km</span>
+                            <span class="detail-label">Visibility</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <svg class="detail-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M12 2v10M12 22v-2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+                            <circle cx="12" cy="12" r="4"/>
+                        </svg>
+                        <div class="detail-text">
+                            <span class="detail-value pressure-value">-- hPa</span>
+                            <span class="detail-label">Pressure</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <svg class="detail-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"/>
+                            <line x1="12" y1="1" x2="12" y2="3"/>
+                            <line x1="12" y1="21" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="3" y2="12"/>
+                            <line x1="21" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                        <div class="detail-text">
+                            <span class="detail-value sunrise-value">--:--</span>
+                            <span class="detail-label">Sunrise</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <svg class="detail-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                        <div class="detail-text">
+                            <span class="detail-value sunset-value">--:--</span>
+                            <span class="detail-label">Sunset</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 5-Day Forecast -->
+            <div class="forecast-container hidden">
+                <h3 class="forecast-title">5-Day Forecast</h3>
+                <div class="forecast-grid"></div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Weather data by <a href="https://openweathermap.org/" target="_blank" rel="noopener">OpenWeatherMap</a></p>
+            <p>Created by TanQHoang &copy; 2026</p>
+        </footer>
+
+    </div>
+
+    <script src="./js/app.js"></script>
+</body>
+</html>
