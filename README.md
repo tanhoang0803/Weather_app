@@ -162,3 +162,9 @@ Works in all modern browsers:
 **TanQHoang** — July 2024
 
 Weather data provided by [OpenWeatherMap](https://openweathermap.org/).
+
+---
+
+## Project Reference
+
+- [roadmap.sh — Weather API Wrapper Service](https://roadmap.sh/projects/weather-api-wrapper-service)
